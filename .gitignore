@@ -1,0 +1,10 @@
+target/
+.project/
+.settings/
+.classpath/
+.idea
+.allure
+*.iml
+*.log
+/build
+.DS_Store
