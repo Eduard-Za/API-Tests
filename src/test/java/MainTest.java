@@ -82,7 +82,7 @@ public class MainTest extends BaseTest {
     @Test
     public void performPostRequest() {
         ClassLoader classLoader = getClass().getClassLoader();
-        logger.info("Get json gor body");
+        logger.info("Get json for body");
         File file = new File(classLoader.getResource("postCountryBody.json").getFile());
         RestAssured.baseURI = PropertiesLoader.loadProperty("post.url");
         logger.info("Send post request and check status code");
