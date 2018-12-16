@@ -51,18 +51,18 @@ public class MainTest extends BaseTest {
     @Description("Get each country (US, DE and GB) individually and validate the response")
     @Test
     public void validateEachCountries() {
-        Arrays.asList(Countries.values()).stream().filter(countries -> countries.getIsExist() == true)
-                .forEach(countries -> {
-                    logger.info("Get response by each countries " + countries);
-                    response = getResponseFromCountry(countries);
-                    logger.info("Check status code " + countries + " " + response.getStatusCode());
+        Arrays.asList(Countries.values()).stream().filter(country -> country.getIsExist() == true)
+                .forEach(country -> {
+                    logger.info("Get response by each countries " + country);
+                    response = getResponseFromCountry(country);
+                    logger.info("Check status code " + country + " " + response.getStatusCode());
                     Assert.assertTrue(200 == response.getStatusCode());
                     ResponseEachCountry responseEachCountry = response.as(ResponseEachCountry.class);
-                    logger.info("Check name and isoCode " + countries);
+                    logger.info("Check name and isoCode " + country);
                     String name = responseEachCountry.RestResponse.getResult().getName();
                     String alfa2 = responseEachCountry.RestResponse.getResult().getAlpha2_code();
-                    Assert.assertTrue(name.equals(countries.getName()));
-                    Assert.assertTrue(alfa2.equals(countries.getAlfa()));
+                    Assert.assertTrue(name.equals(country.getName()));
+                    Assert.assertTrue(alfa2.equals(country.getAlfa()));
                 });
     }
 
@@ -73,8 +73,8 @@ public class MainTest extends BaseTest {
         response = getResponseFromCountry(NONEXIST);
         ResponseEachCountry responseEachCountry = response.as(ResponseEachCountry.class);
         logger.info("Check that response is null for " + NONEXIST);
-        Boolean isPresent = responseEachCountry.getRestResponse().getResult() == null;
-        Assert.assertTrue(isPresent);
+        Boolean isNonExistentNull = responseEachCountry.getRestResponse().getResult() == null;
+        Assert.assertTrue("Check that response body for NonExistent country null", isNonExistentNull);
     }
 
     @Issue("Test-4")
@@ -104,13 +104,13 @@ public class MainTest extends BaseTest {
 
 
     /**
-     * @param countries - country name from Enum
+     * @param country - country name from Enum
      * @return respons for each country
      */
-    public Response getResponseFromCountry(Countries countries) {
+    public Response getResponseFromCountry(Countries country) {
         RestAssured.baseURI = PropertiesLoader.loadProperty("base.url");
         response = when()
-                .get(countries.getAlfa())
+                .get(country.getAlfa())
                 .then().contentType(ContentType.JSON)
                 .extract().response();
         return response;
