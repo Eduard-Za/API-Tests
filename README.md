@@ -1,5 +1,4 @@
 # Tests (API)
-Test Automation Engineer - API testing task.
 
 <p>This project contains automation tests for testing the following web-services:
 
